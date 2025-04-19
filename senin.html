@@ -41,6 +41,16 @@
       margin: 0;
       padding: 0;
     }
+
+    /* Styling untuk kotak catatan */
+    .note-box {
+      background: rgba(255, 255, 224, 0.9); 
+      padding: 8px;
+      border-radius: 4px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.3);
+      font-size: 14px;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
@@ -257,6 +267,24 @@
     };
 
     L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
+    // Tambahkan kotak catatan dengan tiga entry
+    var noteControl = L.control({ position: 'bottomright' });
+    noteControl.onAdd = function(map) {
+      var div = L.DomUtil.create('div', 'note-box');
+      div.innerHTML = `
+        <b>Bagas</b><br>
+        Total Outlet: 19<br>
+        RPP: Rp 30 Jt<br><br>
+        <b>Ghazi</b><br>
+        Total Outlet: 23<br>
+        RPP: Rp 38 Jt<br><br>
+        <b>Azka</b><br>
+        Total Outlet: 17<br>
+        RPP: Rp 3 Jt
+      `;
+      return div;
+    };
+    noteControl.addTo(map);
   </script>
 </body>
 </html>
