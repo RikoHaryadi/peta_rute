@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta Rute Salesman</title>
+  <!-- Memuat CSS Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    /* Styling untuk nav bar */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      background-color: #06a8f3;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .navbar a {
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .navbar a:hover {
+      background-color: #ddd;
+      color: rgb(0, 0, 0);
+    }
+
+    /* Container untuk peta */
+    #map {
+      height: calc(100vh - 50px); /* Mengurangi tinggi nav bar, misal nav bar 50px */
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+     <!-- Nav Bar -->
+  <div class="navbar">
+    <a href="senin.html">SENIN</a>
+    <a href="selasa.html">SELASA</a>
+    <a href="index.html">RABU</a>
+    <a href="2.html">KAMIS</a>
+    <a href="jumat.html">JUMAT</a>
+    <a href="sabtu.html">SABTU</a>
+    
+    <!-- Tambahkan link lain sesuai kebutuhan -->
+  </div>
+  <div id="map"></div>
+
+  <!-- Memuat library Leaflet -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // ===============================
+    // 1) DEFINISI DATA KOORDINAT
+    // ===============================
+
+    // Kelompok 1 (Biru)
+    const markersDataBlue = [
+    { lat: -2.21950446, lng: 101.11776224, label: "ALIF" },
+{ lat: -2.322055, lng: 101.163143, label: "RHEVAN" },
+{ lat: -2.266287, lng: 101.139633, label: "DAYU" },
+{ lat: -2.24908648, lng: 101.12924985, label: "IRVAN" },
+{ lat: -2.26617665, lng: 101.09589113, label: "PRAMONO" },
+{ lat: -2.24454391, lng: 101.12779353, label: "ZAHWA" },
+{ lat: -2.264612, lng: 101.105269, label: "POHON BERINGIN" },
+{ lat: -2.270434, lng: 101.099051, label: "TOKO AIRIN" },
+{ lat: -2.2649363, lng: 101.10526158, label: "AZWAR" },
+{ lat: -2.21823514, lng: 101.11856996, label: "FANI" },
+{ lat: -2.271842, lng: 101.09513, label: "HALAL MART" },
+{ lat: -2.26278747, lng: 101.10780064, label: "K I K I" },
+{ lat: -2.26299916, lng: 101.10518774, label: "LUSI" },
+{ lat: -2.26964289, lng: 101.09534664, label: "REZA" },
+{ lat: -2.266359, lng: 101.095544, label: "TOKO ARFA" },
+{ lat: -2.26759, lng: 101.09937, label: "TOKO RESKI JAYA" },
+{ lat: -2.26631639, lng: 101.10516981, label: "RINA" },
+{ lat: -2.264089, lng: 101.140095, label: "TOKO ZAHRA LUNANG" },
+{ lat: -2.265502, lng: 101.139938, label: "TOKO PRABA" },
+{ lat: -2.290657, lng: 101.080487, label: "TOKO AZARI" },
+{ lat: -2.293678, lng: 101.08036, label: "TOKO HARTATIK" },
+{ lat: -2.288509, lng: 101.085369, label: "TOKO NAURA" },
+{ lat: -2.287929, lng: 101.078596, label: "TOKO VERA" },
+{ lat: -2.288566, lng: 101.092648, label: "TOKO WIKI" },
+{ lat: -2.196083, lng: 101.122068, label: "TOKO DINI" },
+{ lat: -2.297358, lng: 101.154706, label: "NANANG" },
+
+
+
+    ];
+
+    // Kelompok 2 (Merah)
+    const markersDataRed = [
+    { lat: -2.161419, lng: 101.077871, label: "TOKO HESTI" },
+{ lat: -2.185889, lng: 101.081806, label: "NUR" },
+{ lat: -2.17654857, lng: 101.05882877, label: "PUTRI" },
+{ lat: -2.16834142, lng: 101.06171183, label: "TIARA" },
+{ lat: -2.124622, lng: 101.126268, label: "TOKO DZAKIY" },
+{ lat: -2.15943, lng: 101.07969, label: "ROMI" },
+{ lat: -2.273052, lng: 101.095224, label: "R I R I" },
+{ lat: -2.268879, lng: 101.099224, label: "VANDY" },
+{ lat: -2.27565, lng: 101.148961, label: "TOKO ILHAM" },
+{ lat: -2.224297, lng: 101.118444, label: "TOKO TARA" },
+{ lat: -2.288039, lng: 101.086088, label: "TOKO ARSY LUNANG" },
+{ lat: -2.288412, lng: 101.08562, label: "TOKO TUJUAN" },
+{ lat: -2.188969, lng: 101.129106, label: "UD AISAH" },
+{ lat: -2.19001, lng: 101.128521, label: "UD NANDA" },
+{ lat: -2.1593, lng: 101.079439, label: "TOKO ECA" },
+{ lat: -2.200202, lng: 101.1168, label: "INTAN MART" },
+{ lat: -2.128519, lng: 101.113432, label: "TOKO QINTAN" },
+{ lat: -2.186286, lng: 101.078764, label: "CYNTIA" },
+{ lat: -2.1672543, lng: 101.06755364, label: "EL" },
+{ lat: -2.16452027, lng: 101.07313999, label: "GOZI" },
+{ lat: -2.18071667, lng: 101.06240833, label: "HAYULL" },
+{ lat: -2.18072856, lng: 101.06239784, label: "JONI" },
+{ lat: -2.16560528, lng: 101.07167322, label: "KHA NAD" },
+{ lat: -2.166197, lng: 101.071055, label: "TOKO BERLIAN" },
+{ lat: -2.179669, lng: 101.067661, label: "TOKO SUSAN" },
+{ lat: -2.180083, lng: 101.060423, label: "TOKO AHZA" },
+{ lat: -2.12536, lng: 101.071369, label: "TOKO HARUMI" },
+{ lat: -2.124646, lng: 101.070458, label: "TOKO VIA" },
+
+
+
+    ];
+
+    // Kelompok 3 (Kuning)
+    const markersDataYellow = [
+    { lat: -2.275545, lng: 101.152152, label: "ARI CELL" },
+{ lat: -2.249468, lng: 101.132548, label: "NADILA LUNANG" },
+{ lat: -2.255802, lng: 101.136914, label: "ORLIN SHANUM" },
+{ lat: -2.269257, lng: 101.142011, label: "TOKO DIAN" },
+{ lat: -2.279982, lng: 101.15732, label: "TOKO GHOZI" },
+{ lat: -2.25575, lng: 101.134198, label: "TOKO LEO" },
+{ lat: -2.250274, lng: 101.133497, label: "TOKO RAKA" },
+{ lat: -2.249395, lng: 101.130359, label: "TOKO SELI" },
+{ lat: -2.272724, lng: 101.095556, label: "TOKO IJAL" },
+{ lat: -2.263541, lng: 101.139862, label: "TOKO HIJRAH" },
+{ lat: -2.275609, lng: 101.148784, label: "LIZOYA SHOP" },
+{ lat: -2.227152, lng: 101.116458, label: "KASMAWATI" },
+{ lat: -2.219238, lng: 101.117734, label: "TOKO APIF" },
+{ lat: -2.224323, lng: 101.118442, label: "TOKO SAULIA" },
+{ lat: -2.214779, lng: 101.119198, label: "TOKO IMEL" },
+{ lat: -2.211395, lng: 101.11955, label: "TOKO YUMNA" },
+{ lat: -2.203167, lng: 101.119366, label: "TOKO FEYMART" },
+{ lat: -2.196359, lng: 101.109536, label: "TOKO HD" },
+
+
+
+    ];
+
+   // ===============================
+    // 2) BUAT PETA LEAFLET
+    // ===============================
+    // Gabungkan semua marker (biru + merah + kuning) untuk perhitungan posisi peta
+    const allMarkers = [
+      ...markersDataBlue,
+      ...markersDataRed,
+      ...markersDataYellow
+    ];
+
+    let sumLat = 0;
+    let sumLng = 0;
+    allMarkers.forEach((data) => {
+      sumLat += data.lat;
+      sumLng += data.lng;
+    });
+    const avgLat = sumLat / allMarkers.length;
+    const avgLng = sumLng / allMarkers.length;
+
+    // Membuat objek peta dan pusatkan ke posisi rata-rata
+    const map = L.map('map').setView([avgLat, avgLng], 13);
+
+    // ===============================
+    // 3) DEFINISIKAN BASE LAYERS (Tampilan Peta)
+    // ===============================
+    // Tampilan jalan (OpenStreetMap)
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // Tampilan satelit (Esri World Imagery)
+    const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19,
+      attribution: 'Tiles © Esri'
+    });
+
+    // Tampilan medan/terrain (OpenTopoMap)
+    const terrain = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+      maxZoom: 17,
+      attribution: '© OpenTopoMap'
+    });
+
+    // ===============================
+    // 4) FUNGSI UNTUK ICON CUSTOM
+    // ===============================
+    function createCustomIcon(color) {
+      return L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-' + color + '.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
+    }
+
+    // Icon untuk tiap kelompok
+    const blueIcon = createCustomIcon('blue');
+    const redIcon = createCustomIcon('red');
+    const yellowIcon = createCustomIcon('yellow');
+
+    // ===============================
+    // 5) TAMBAH MARKER KELOMPOK 1 (BIRU)
+    // ===============================
+    const blueMarkers = L.layerGroup();
+    markersDataBlue.forEach((data) => {
+      L.marker([data.lat, data.lng], { icon: blueIcon })
+        .bindPopup("<b>" + data.label + "</b><br/>Koordinat: " + data.lat + ", " + data.lng)
+        .addTo(blueMarkers);
+    });
+    blueMarkers.addTo(map);
+
+    // ===============================
+    // 6) TAMBAH MARKER KELOMPOK 2 (MERAH)
+    // ===============================
+    const redMarkers = L.layerGroup();
+    markersDataRed.forEach((data) => {
+      L.marker([data.lat, data.lng], { icon: redIcon })
+        .bindPopup("<b>" + data.label + "</b><br/>Koordinat: " + data.lat + ", " + data.lng)
+        .addTo(redMarkers);
+    });
+    redMarkers.addTo(map);
+
+    // ===============================
+    // 7) TAMBAH MARKER KELOMPOK 3 (KUNING)
+    // ===============================
+    const yellowMarkers = L.layerGroup();
+    markersDataYellow.forEach((data) => {
+      L.marker([data.lat, data.lng], { icon: yellowIcon })
+        .bindPopup("<b>" + data.label + "</b><br/>Koordinat: " + data.lat + ", " + data.lng)
+        .addTo(yellowMarkers);
+    });
+    yellowMarkers.addTo(map);
+
+    // ===============================
+    // 8) CONTROL LAYER (Pilih Tampilan dan Marker)
+    // ===============================
+    const baseMaps = {
+      "Jalan (OSM)": osm,
+      "Satelit (Esri)": satellite,
+      "Medan (OpenTopoMap)": terrain
+    };
+
+    const overlayMaps = {
+      "Ghazi Biru": blueMarkers,
+      "Bagas Merah": redMarkers,
+      "Azka Kuning": yellowMarkers
+    };
+
+    L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
+  </script>
+</body>
+</html>
