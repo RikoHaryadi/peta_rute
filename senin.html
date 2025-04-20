@@ -7,6 +7,25 @@
   <!-- Memuat CSS Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
+    /* Khusus untuk layar di bawah 768px */
+@media (max-width: 768px) {
+  /* Navbar jadi vertikal, link memenuhi lebar layar */
+  .navbar {
+    flex-direction: column;
+    padding: 10px;
+  }
+  .navbar a {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    font-size: 16px;
+  }
+
+  /* Perkecil jarak atas-bawah map agar lebih banyak area peta */
+  #map {
+    height: calc(100vh - 200px); /* sesuaikan sesuai tinggi navbar setelah wrap */
+  }
+}
     /* Styling untuk nav bar */
     body {
       margin: 0;
@@ -41,9 +60,8 @@
       margin: 0;
       padding: 0;
     }
-
-    /* Styling untuk kotak catatan */
-    .note-box {
+     /* Styling untuk kotak catatan */
+     .note-box {
       background: rgba(255, 255, 224, 0.9); 
       padding: 8px;
       border-radius: 4px;
@@ -51,20 +69,34 @@
       font-size: 14px;
       line-height: 1.4;
     }
+    .hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  display: none; /* tampilkan hanya di mobile */
+}
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  .navbar-links { display: none; flex-direction: column; }
+  .navbar-links.show { display: flex; }
+}
+
   </style>
 </head>
 <body>
      <!-- Nav Bar -->
-  <div class="navbar">
-    <a href="senin.html">SENIN</a>
-    <a href="selasa.html">SELASA</a>
-    <a href="index.html">RABU</a>
-    <a href="2.html">KAMIS</a>
-    <a href="jumat.html">JUMAT</a>
-    <a href="sabtu.html">SABTU</a>
+     <div class="navbar">
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+      <div class="navbar-links" id="navLinks">
+        <a href="senin.html">SENIN</a>
+        <a href="selasa.html">SELASA</a>
+        <a href="index.html">RABU</a>
+        <a href="2.html">KAMIS</a>
+        <a href="jumat.html">JUMAT</a>
+        <a href="sabtu.html">SABTU</a>
     
     <!-- Tambahkan link lain sesuai kebutuhan -->
   </div>
+</div>
   <div id="map"></div>
 
   <!-- Memuat library Leaflet -->
@@ -285,6 +317,15 @@
       return div;
     };
     noteControl.addTo(map);
+
+      // Kalau layar di-resize (termasuk saat orientation change), perbarui ukuran peta
+window.addEventListener('resize', () => {
+  map.invalidateSize();
+});
+
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('show');
+}
   </script>
 </body>
 </html>
