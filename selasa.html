@@ -8,60 +8,60 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
     /* Khusus untuk layar di bawah 768px */
-@media (max-width: 768px) {
-  /* Navbar jadi vertikal, link memenuhi lebar layar */
-  .navbar {
-    flex-direction: column;
-    padding: 10px;
-  }
-  .navbar a {
-    display: block;
-    width: 100%;
-    padding: 12px 0;
-    font-size: 16px;
-  }
 
-  /* Perkecil jarak atas-bawah map agar lebih banyak area peta */
-  #map {
-    height: calc(100vh - 200px); /* sesuaikan sesuai tinggi navbar setelah wrap */
-  }
-}
+
     /* Styling untuk nav bar */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
+    body, html { margin:0; padding:0; height:100%; }
 
-    .navbar {
-      background-color: #06a8f3;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-    }
+  /* ===== DESKTOP ===== */
+  .navbar {
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between;  <-- atau ini, tapi di contoh berikut pakai margin-left:auto */
+  background-color: rgba(6,168,243,0.8);
+  z-index: 1000;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.navbar-links {
+  display: flex;
+  /* kalau di desktop kamu masih pakai margin-left:auto;  
+     hapus saja, karena kita gunakan pada .navbar-text */
+}
+.navbar-links a {
+  color: #f2f2f2;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+.navbar-text {
+  margin-left: auto;      /* dorong elemen ini ke paling kanan */
+  color: #f2f2f2;
+  font-size: 17px;
+  white-space: nowrap;    /* agar teks tidak pecah baris */
+}
 
-    .navbar a {
-      color: #f2f2f2;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-    }
+  .hamburger { display: none; font-size: 24px; cursor: pointer; }
 
-    .navbar a:hover {
-      background-color: #ddd;
-      color: rgb(0, 0, 0);
-    }
+  #map {
+    position: absolute;
+    top: 50px;   /* sesuaikan dengan tinggi navbar */
+    right: 0; bottom: 0; left: 0;
+  }
 
-    /* Container untuk peta */
-    #map {
-      height: calc(100vh - 50px); /* Mengurangi tinggi nav bar, misal nav bar 50px */
-      width: 100%;
-      margin: 0;
-      padding: 0;
-    }
-     /* Styling untuk kotak catatan */
-     .note-box {
+  /* ===== MOBILE ===== */
+  @media (max-width: 768px) {
+  .hamburger { display: block; color:#fff; }
+  .navbar-links { display: none; flex-direction: column; width: 100%; }
+  .navbar-links.show { display: flex; }
+  /* Kalau mau sembunyikan teks di mobile, tambah:
+     .navbar-text { display: none; }
+  */
+}
+
+.note-box {
       background: rgba(255, 255, 224, 0.9); 
       padding: 8px;
       border-radius: 4px;
@@ -69,16 +69,6 @@
       font-size: 14px;
       line-height: 1.4;
     }
-    .hamburger {
-  font-size: 24px;
-  cursor: pointer;
-  display: none; /* tampilkan hanya di mobile */
-}
-@media (max-width: 768px) {
-  .hamburger { display: block; }
-  .navbar-links { display: none; flex-direction: column; }
-  .navbar-links.show { display: flex; }
-}
 
   </style>
 </head>
@@ -96,6 +86,7 @@
     
     <!-- Tambahkan link lain sesuai kebutuhan -->
   </div>
+  <div class="navbar-text">RUTE SALESMAN TAPAN</div>
 </div>
   <!-- Container Peta -->
   <div id="map"></div>
