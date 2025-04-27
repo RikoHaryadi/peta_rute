@@ -46,7 +46,10 @@
     }
     /* Toggle button */
     #toggle-btn {
-      position: absolute; top: 60px; left: 300px;
+      position: absolute;
+      top: 50%;
+      left: 300px;
+      transform: translateY(-50%);
       width:30px; height:30px; background:rgba(6,168,243,0.8);
       color:#fff; border:none; border-radius:4px;
       cursor:pointer; font-size:18px;
@@ -55,7 +58,8 @@
       z-index:650;
     }
     #toggle-btn.collapsed {
-      left: 0; transform: rotate(180deg);
+      left: 0;
+      transform: translateY(-50%) rotate(180deg);
     }
     /* Map fills entire viewport below navbar */
     #map {
@@ -99,19 +103,19 @@
 </div>
 <div id="sidebar">
   <div class="sales-item">
-    <img src="ghazi.JPG" alt="Ghazi">
+    <img src="ghazi.jpg" alt="Ghazi">
     <div class="sales-info"><h3>Ghazi</h3><p>Total Outlet: 152</p><p>RPP: Rp. 191.672.127</p></div>
   </div>
   <div class="sales-item">
-    <img src="bagas.JPG" alt="Bagas">
+    <img src="bagas.jpg" alt="Bagas">
     <div class="sales-info"><h3>Bagas</h3><p>Total Outlet: 157</p><p>RPP: Rp. 225.102.885</p></div>
   </div>
   <div class="sales-item">
-    <img src="aska.JPG" alt="Aska">
+    <img src="aska.jpg" alt="Aska">
     <div class="sales-info"><h3>Aska</h3><p>Total Outlet: 99</p><p>RPP: Rp. 10.008.558</p></div>
   </div>
   <div class="sales-item">
-    <img src="rms.JPG" alt="rms">
+    <img src="rms.jpg" alt="Aska">
     <div class="sales-info"><h3>Total Distributor</h3><p>Total Outlet: 408</p><p>RPP: Rp. 426.783.570</p></div>
   </div>
 </div>
