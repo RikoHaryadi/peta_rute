@@ -7,61 +7,80 @@
   <!-- Memuat CSS Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    /* Khusus untuk layar di bawah 768px */
-
-
-    /* Styling untuk nav bar */
     body, html { margin:0; padding:0; height:100%; }
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; height: 50px;
+      display: flex; align-items: center; padding: 0 20px;
+      background: rgba(6,168,243,0.8); z-index: 1001; box-sizing:border-box;
+    }
+    .navbar .hamburger {
+      display: none; font-size: 24px; cursor: pointer; color:#fff;
+      z-index: 1002;
+    }
+    .navbar-links {
+      display: flex; margin-left: 20px;
+    }
+    .navbar-links a {
+      color: #fff; padding: 14px 16px; text-decoration: none;
+    }
+    .navbar-text { margin-left: auto; color: #fff; }
+    @media (max-width:768px) {
+      .navbar .hamburger { display:block; }
+      .navbar-links {
+        display: none; flex-direction: column; width: 100%;
+        position: absolute; top: 50px; left: 0;
+        background: rgba(6,168,243,0.9); z-index: 1001;
+      }
+      .navbar-links.show { display: flex; }
+      .navbar-links a { padding: 12px; }
+    }
+    /* Sidebar overlay */
+    #sidebar {
+      position: absolute; top: 50px; left: 0;
+      width: 300px; height: calc(100% - 50px);
+      background: #cfd3cf; box-shadow: 2px 0 6px rgba(0,0,0,0.3);
+      padding:10px; box-sizing:border-box;
+      transition: transform 0.3s ease; z-index: 600;
+    }
+    #sidebar.collapsed {
+      transform: translateX(-300px);
+    }
+    /* Toggle button */
+    #toggle-btn {
+      position: absolute;
+      top: 50%;
+      left: 300px;
+      transform: translateY(-50%);
+      width:30px; height:30px; background:rgba(6,168,243,0.8);
+      color:#fff; border:none; border-radius:4px;
+      cursor:pointer; font-size:18px;
+      display:flex; align-items:center; justify-content:center;
+      transition: left 0.3s ease, transform 0.3s ease;
+      z-index:650;
+    }
+    #toggle-btn.collapsed {
+      left: 0;
+      transform: translateY(-50%) rotate(180deg);
+    }
+    /* Map fills entire viewport below navbar */
+    #map {
+      position:absolute; top:50px; left:0; right:0; bottom:0; z-index:500;
+    }
+    /* Sales styling */
+    .sales-item { display:flex; align-items:center; margin-bottom:15px; }
+    .sales-item img {
+      width:80px; height:80px; border-radius:10%; margin-right:10px;
+      object-fit:cover;
+    }
+    .excel-item { display:flex; align-items:center; margin-top:110px; }
+    .excel-item img {
+      width:80px; height:80px; border-radius:10%; margin-right:10px;
+      object-fit:cover;
+    }
+    .sales-info h3 { margin:0 0 5px; }
+    .sales-info p { margin:2px 0; }
 
-  /* ===== DESKTOP ===== */
-  .navbar {
-  position: fixed;
-  top: 0; left: 0; width: 100%;
-  display: flex;
-  align-items: center;
-  /* justify-content: space-between;  <-- atau ini, tapi di contoh berikut pakai margin-left:auto */
-  background-color: rgba(6,168,243,0.8);
-  z-index: 1000;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-.navbar-links {
-  display: flex;
-  /* kalau di desktop kamu masih pakai margin-left:auto;  
-     hapus saja, karena kita gunakan pada .navbar-text */
-}
-.navbar-links a {
-  color: #f2f2f2;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-.navbar-text {
-  margin-left: auto;      /* dorong elemen ini ke paling kanan */
-  color: #f2f2f2;
-  font-size: 17px;
-  white-space: nowrap;    /* agar teks tidak pecah baris */
-}
-
-  .hamburger { display: none; font-size: 24px; cursor: pointer; }
-
-  #map {
-    position: absolute;
-    top: 50px;   /* sesuaikan dengan tinggi navbar */
-    right: 0; bottom: 0; left: 0;
-  }
-
-  /* ===== MOBILE ===== */
-  @media (max-width: 768px) {
-  .hamburger { display: block; color:#fff; }
-  .navbar-links { display: none; flex-direction: column; width: 100%; }
-  .navbar-links.show { display: flex; }
-  /* Kalau mau sembunyikan teks di mobile, tambah:
-     .navbar-text { display: none; }
-  */
-}
-
-.note-box {
+    .note-box {
       background: rgba(255, 255, 224, 0.9); 
       padding: 8px;
       border-radius: 4px;
@@ -73,8 +92,8 @@
   </style>
 </head>
 <body>
-     <!-- Nav Bar -->
-     <div class="navbar">
+    <!-- Nav Bar -->
+    <div class="navbar">
       <div class="hamburger" onclick="toggleMenu()">☰</div>
       <div class="navbar-links" id="navLinks">
         <a href="senin.html">SENIN</a>
@@ -83,20 +102,60 @@
         <a href="2.html">KAMIS</a>
         <a href="jumat.html">JUMAT</a>
         <a href="sabtu.html">SABTU</a>
+        <a href="grafik.html">DASHBOARD</a>
     
     <!-- Tambahkan link lain sesuai kebutuhan -->
   </div>
   <div class="navbar-text">RUTE SALESMAN TAPAN</div>
 </div>
+<div id="sidebar">
+  <div class="sales-item">
+    <img src="ghazi.jpg" alt="Ghazi">
+    <div class="sales-info"><h3>Ghazi</h3><p>Total Outlet: 146</p><p>RPP: Rp. 134.062.528</p></div>
+  </div>
+  <div class="sales-item">
+    <img src="bagas.jpg" alt="Bagas">
+    <div class="sales-info"><h3>Bagas</h3><p>Total Outlet: 146</p><p>RPP: Rp. 220.987.604</p></div>
+  </div>
+  <div class="sales-item">
+    <img src="aska.jpg" alt="Aska">
+    <div class="sales-info"><h3>Aska</h3><p>Total Outlet: 120</p><p>RPP: Rp. 13.514.169</p></div>
+  </div>
+  <div class="sales-item">
+    <img src="rms.jpg" alt="Aska">
+    <div class="sales-info"><h3>Total Distributor</h3><p>Total Outlet: 412</p><p>RPP: Rp. 426.783.570</p></div>
+  </div>
+  <a
+  href="https://docs.google.com/spreadsheets/d/1Cly1oC71_DDv3pG-qmegjmKogiGdYwqe/edit?usp=drive_link&ouid=116285240658165815761&rtpof=true&sd=true"
+  target="_blank"
+  style="text-decoration: none; color: inherit;"
+>
+  <div class="excel-item">
+    <img src="excel.png" alt="download">
+    <div class="sales-info">
+      <h3>Download PJP</h3>
+    </div>
+  </div>
+</a>
+</div>
+
+</div>
+  <button id="toggle-btn"><</button>
   <div id="map"></div>
 
-  <!-- Memuat library Leaflet -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // ===============================
-    // 1) DEFINISI DATA KOORDINAT
-    // ===============================
-
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggle-btn');
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      toggleBtn.classList.toggle('collapsed');
+      // Re-render map
+      setTimeout(() => map.invalidateSize(), 310);
+    });
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('show');
+    }
     // Kelompok 1 (Biru)
     const markersDataBlue = [
     { lat: -2.21950446, lng: 101.11776224, label: "ALIF" },
@@ -132,59 +191,59 @@
 
     // Kelompok 2 (Merah)
     const markersDataRed = [
-    { lat: -2.161419, lng: 101.077871, label: "TOKO HESTI" },
-{ lat: -2.185889, lng: 101.081806, label: "NUR" },
-{ lat: -2.17654857, lng: 101.05882877, label: "PUTRI" },
-{ lat: -2.16834142, lng: 101.06171183, label: "TIARA" },
-{ lat: -2.124622, lng: 101.126268, label: "TOKO DZAKIY" },
-{ lat: -2.15943, lng: 101.07969, label: "ROMI" },
-{ lat: -2.273052, lng: 101.095224, label: "R I R I" },
-{ lat: -2.268879, lng: 101.099224, label: "VANDY" },
-{ lat: -2.27565, lng: 101.148961, label: "TOKO ILHAM" },
-{ lat: -2.224297, lng: 101.118444, label: "TOKO TARA" },
-{ lat: -2.288039, lng: 101.086088, label: "TOKO ARSY LUNANG" },
-{ lat: -2.288412, lng: 101.08562, label: "TOKO TUJUAN" },
-{ lat: -2.188969, lng: 101.129106, label: "UD AISAH" },
-{ lat: -2.19001, lng: 101.128521, label: "UD NANDA" },
-{ lat: -2.1593, lng: 101.079439, label: "TOKO ECA" },
-{ lat: -2.200202, lng: 101.1168, label: "INTAN MART" },
-{ lat: -2.128519, lng: 101.113432, label: "TOKO QINTAN" },
-{ lat: -2.186286, lng: 101.078764, label: "CYNTIA" },
+    { lat: -2.186286, lng: 101.078764, label: "CYNTIA" },
 { lat: -2.1672543, lng: 101.06755364, label: "EL" },
 { lat: -2.16452027, lng: 101.07313999, label: "GOZI" },
 { lat: -2.18071667, lng: 101.06240833, label: "HAYULL" },
 { lat: -2.18072856, lng: 101.06239784, label: "JONI" },
 { lat: -2.16560528, lng: 101.07167322, label: "KHA NAD" },
-{ lat: -2.166197, lng: 101.071055, label: "TOKO BERLIAN" },
-{ lat: -2.179669, lng: 101.067661, label: "TOKO SUSAN" },
+{ lat: -2.185889, lng: 101.081806, label: "NUR" },
+{ lat: -2.17654857, lng: 101.05882877, label: "PUTRI" },
+{ lat: -2.15943, lng: 101.07969, label: "ROMI" },
+{ lat: -2.16834142, lng: 101.06171183, label: "TIARA" },
 { lat: -2.180083, lng: 101.060423, label: "TOKO AHZA" },
+{ lat: -2.166197, lng: 101.071055, label: "TOKO BERLIAN" },
+{ lat: -2.124622, lng: 101.126268, label: "TOKO DZAKIY" },
+{ lat: -2.1593, lng: 101.079439, label: "TOKO ECA" },
 { lat: -2.12536, lng: 101.071369, label: "TOKO HARUMI" },
+{ lat: -2.161419, lng: 101.077871, label: "TOKO HESTI" },
+{ lat: -2.128519, lng: 101.113432, label: "TOKO QINTAN" },
+{ lat: -2.179669, lng: 101.067661, label: "TOKO SUSAN" },
 { lat: -2.124646, lng: 101.070458, label: "TOKO VIA" },
-
 
 
     ];
 
     // Kelompok 3 (Kuning)
     const markersDataYellow = [
-    { lat: -2.275545, lng: 101.152152, label: "ARI CELL" },
+    { lat: -2.227152, lng: 101.116458, label: "KASMAWATI" },
+{ lat: -2.275609, lng: 101.148784, label: "LIZOYA SHOP" },
 { lat: -2.249468, lng: 101.132548, label: "NADILA LUNANG" },
 { lat: -2.255802, lng: 101.136914, label: "ORLIN SHANUM" },
-{ lat: -2.269257, lng: 101.142011, label: "TOKO DIAN" },
-{ lat: -2.279982, lng: 101.15732, label: "TOKO GHOZI" },
-{ lat: -2.25575, lng: 101.134198, label: "TOKO LEO" },
-{ lat: -2.250274, lng: 101.133497, label: "TOKO RAKA" },
-{ lat: -2.249395, lng: 101.130359, label: "TOKO SELI" },
-{ lat: -2.272724, lng: 101.095556, label: "TOKO IJAL" },
-{ lat: -2.263541, lng: 101.139862, label: "TOKO HIJRAH" },
-{ lat: -2.275609, lng: 101.148784, label: "LIZOYA SHOP" },
-{ lat: -2.227152, lng: 101.116458, label: "KASMAWATI" },
 { lat: -2.219238, lng: 101.117734, label: "TOKO APIF" },
-{ lat: -2.224323, lng: 101.118442, label: "TOKO SAULIA" },
-{ lat: -2.214779, lng: 101.119198, label: "TOKO IMEL" },
-{ lat: -2.211395, lng: 101.11955, label: "TOKO YUMNA" },
+{ lat: -2.269257, lng: 101.142011, label: "TOKO DIAN" },
 { lat: -2.203167, lng: 101.119366, label: "TOKO FEYMART" },
+{ lat: -2.279982, lng: 101.15732, label: "TOKO GHOZI" },
 { lat: -2.196359, lng: 101.109536, label: "TOKO HD" },
+{ lat: -2.263541, lng: 101.139862, label: "TOKO HIJRAH" },
+{ lat: -2.272724, lng: 101.095556, label: "TOKO IJAL" },
+{ lat: -2.214779, lng: 101.119198, label: "TOKO IMEL" },
+{ lat: -2.274607, lng: 101.14358, label: "TOKO KEANO" },
+{ lat: -2.25575, lng: 101.134198, label: "TOKO LEO" },
+{ lat: -2.269137, lng: 101.142055, label: "TOKO RAFI" },
+{ lat: -2.250274, lng: 101.133497, label: "TOKO RAKA" },
+{ lat: -2.224323, lng: 101.118442, label: "TOKO SAULIA" },
+{ lat: -2.249395, lng: 101.130359, label: "TOKO SELI" },
+{ lat: -2.211395, lng: 101.11955, label: "TOKO YUMNA" },
+{ lat: -2.200202, lng: 101.1168, label: "INTAN MART" },
+{ lat: -2.273052, lng: 101.095224, label: "R I R I" },
+{ lat: -2.288039, lng: 101.086088, label: "TOKO ARSY LUNANG" },
+{ lat: -2.27565, lng: 101.148961, label: "TOKO ILHAM" },
+{ lat: -2.224297, lng: 101.118444, label: "TOKO TARA" },
+{ lat: -2.288412, lng: 101.08562, label: "TOKO TUJUAN" },
+{ lat: -2.188969, lng: 101.129106, label: "UD AISAH" },
+{ lat: -2.19001, lng: 101.128521, label: "UD NANDA" },
+{ lat: -2.268879, lng: 101.099224, label: "VANDY" },
 
 
 
@@ -307,14 +366,14 @@
       var div = L.DomUtil.create('div', 'note-box');
       div.innerHTML = `
         <b>Bagas</b><br>
-        Total Outlet: 28<br>
-        RPP: Rp 106 Jt<br><br>
+        Total Outlet: 19<br>
+        RPP: Rp 103 Jt<br><br>
         <b>Ghazi</b><br>
         Total Outlet: 26<br>
         RPP: Rp 6.8 Jt<br><br>
         <b>Azka</b><br>
-        Total Outlet: 18<br>
-        RPP: Rp 1.5 Jt
+        Total Outlet: 29<br>
+        RPP: Rp 4.8 Jt
       `;
       return div;
     };
