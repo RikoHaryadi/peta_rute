@@ -71,6 +71,11 @@
       width:80px; height:80px; border-radius:10%; margin-right:10px;
       object-fit:cover;
     }
+    .excel-item { display:flex; align-items:center; margin-top:110px; }
+    .excel-item img {
+      width:80px; height:80px; border-radius:10%; margin-right:10px;
+      object-fit:cover;
+    }
     .sales-info h3 { margin:0 0 5px; }
     .sales-info p { margin:2px 0; }
 
@@ -96,6 +101,7 @@
         <a href="2.html">KAMIS</a>
         <a href="jumat.html">JUMAT</a>
         <a href="sabtu.html">SABTU</a>
+        <a href="grafik.html">DASHBOARD</a>
     
     <!-- Tambahkan link lain sesuai kebutuhan -->
   </div>
@@ -103,21 +109,35 @@
 </div>
 <div id="sidebar">
   <div class="sales-item">
-    <img src="ghazi.JPG" alt="Ghazi">
-    <div class="sales-info"><h3>Ghazi</h3><p>Total Outlet: 152</p><p>RPP: Rp. 191.672.127</p></div>
+    <img src="ghazi.jpg" alt="Ghazi">
+    <div class="sales-info"><h3>Ghazi</h3><p>Total Outlet: 146</p><p>RPP: Rp. 134.062.528</p></div>
   </div>
   <div class="sales-item">
-    <img src="bagas.JPG" alt="Bagas">
-    <div class="sales-info"><h3>Bagas</h3><p>Total Outlet: 157</p><p>RPP: Rp. 225.102.885</p></div>
+    <img src="bagas.jpg" alt="Bagas">
+    <div class="sales-info"><h3>Bagas</h3><p>Total Outlet: 146</p><p>RPP: Rp. 220.987.604</p></div>
   </div>
   <div class="sales-item">
-    <img src="aska.JPG" alt="Aska">
-    <div class="sales-info"><h3>Aska</h3><p>Total Outlet: 99</p><p>RPP: Rp. 10.008.558</p></div>
+    <img src="aska.jpg" alt="Aska">
+    <div class="sales-info"><h3>Aska</h3><p>Total Outlet: 120</p><p>RPP: Rp. 13.514.169</p></div>
   </div>
   <div class="sales-item">
-    <img src="rms.JPG" alt="rms">
+    <img src="rms.jpg" alt="Aska">
     <div class="sales-info"><h3>Total Distributor</h3><p>Total Outlet: 408</p><p>RPP: Rp. 426.783.570</p></div>
   </div>
+  <a
+  href="https://docs.google.com/spreadsheets/d/1KQXKP29nWOFys6I1pssFHynAQ6GIoiyh/edit?usp=drive_link&ouid=116285240658165815761&rtpof=true&sd=true"
+  target="_blank"
+  style="text-decoration: none; color: inherit;"
+>
+  <div class="excel-item">
+    <img src="excel.png" alt="download">
+    <div class="sales-info">
+      <h3>Download PJP</h3>
+    </div>
+  </div>
+</a>
+</div>
+
 </div>
   <button id="toggle-btn"><</button>
   <div id="map"></div>
@@ -137,90 +157,85 @@
     }
     // Kelompok 1 (Biru)
     const markersDataBlue = [
-      { lat: -1.915518, lng: 100.886144, label: "TOKO ZILVA" },
-      { lat: -1.9752634, lng: 100.93243, label: "AURORA" },
-      { lat: -1.693933, lng: 100.709955, label: "RIZKY MART 2" },
-      { lat: -1.86682515, lng: 100.8528589, label: "C I C I" },
-      { lat: -1.86800783, lng: 100.85332494, label: "TALAGO INDAH" },
-      { lat: -1.935328, lng: 100.899051, label: "TOKO QUEEN" },
-      { lat: -1.983004, lng: 100.937255, label: "AMANAT KAWAN MART" },
-      { lat: -1.78057236, lng: 100.78362968, label: "ICEN" },
-      { lat: -1.936952, lng: 100.899762, label: "TOKO ADIT" },
-      { lat: -1.885932, lng: 100.866359, label: "ALDAN" },
-      { lat: -1.884908, lng: 100.861162, label: "ARISMAN" },
-      { lat: -1.89186824, lng: 100.86549898, label: "RIZKY" },
-      { lat: -1.8725933, lng: 100.83757, label: "SI EL" },
-      { lat: -1.904097, lng: 100.855402, label: "TOKO CALISTA" },
-      { lat: -1.90452572, lng: 100.85562005, label: "ZAHRA" },
-      { lat: -1.838, lng: 100.81602, label: "DESI" },
-      { lat: -1.82545874, lng: 100.84391157, label: "FAMILY" },
-      { lat: -1.821772, lng: 100.841208, label: "IWIT" },
-      { lat: -1.844431, lng: 100.841303, label: "KIMIN" },
-      { lat: -1.83711, lng: 100.82426833, label: "LANRA" },
-      { lat: -1.80531555, lng: 100.85856864, label: "UNIANG" },
-      { lat: -1.8275067, lng: 100.82738, label: "NINDI" },
-      { lat: -1.844648, lng: 100.841407, label: "IMIS" },
-      { lat: -1.84467, lng: 100.841377, label: "MADIRA" },
-      { lat: -1.926927, lng: 100.893218, label: "TOKO TIKA GROSIR" },
-      { lat: -1.9540167, lng: 100.91366, label: "WAFDA" },
-      { lat: -1.886504, lng: 100.866166, label: "TOKO JENJAK" },
-      { lat: -1.959714, lng: 100.872432, label: "SIDI" },
-      { lat: -1.97477, lng: 100.882204, label: "ATHAR" },
-      { lat: -1.855567, lng: 100.861559, label: "TOKO INEL" },
+    { lat: -1.885932, lng: 100.866359, label: "ALDAN" },
+{ lat: -1.884908, lng: 100.861162, label: "ARISMAN" },
+{ lat: -1.86682515, lng: 100.8528589, label: "C I C I" },
+{ lat: -1.838, lng: 100.81602, label: "DESI" },
+{ lat: -2.060064, lng: 100.955469, label: "ERIK" },
+{ lat: -1.82545874, lng: 100.84391157, label: "FAMILY" },
+{ lat: -1.78057236, lng: 100.78362968, label: "ICEN" },
+{ lat: -1.844648, lng: 100.841407, label: "IMIS" },
+{ lat: -1.821772, lng: 100.841208, label: "IWIT" },
+{ lat: -1.844431, lng: 100.841303, label: "KIMIN" },
+{ lat: -1.83711, lng: 100.82426833, label: "LANRA" },
+{ lat: -1.84467, lng: 100.841377, label: "MADIRA" },
+{ lat: -1.8275067, lng: 100.82738, label: "NINDI" },
+{ lat: -1.89186824, lng: 100.86549898, label: "RIZKY" },
+{ lat: -1.693933, lng: 100.709955, label: "RIZKY MART 2" },
+{ lat: -1.8725933, lng: 100.83757, label: "SI EL" },
+{ lat: -1.86800783, lng: 100.85332494, label: "TALAGO INDAH" },
+{ lat: -2.00034, lng: 100.953443, label: "TOKO AM" },
+{ lat: -1.904097, lng: 100.855402, label: "TOKO CALISTA" },
+{ lat: -1.855567, lng: 100.861559, label: "TOKO INEL" },
+{ lat: -1.80531555, lng: 100.85856864, label: "UNIANG" },
+{ lat: -1.90452572, lng: 100.85562005, label: "ZAHRA" },
+
     ];
 
     // Kelompok 2 (Merah)
     const markersDataRed = [
-      { lat: -1.915518, lng: 100.886144, label: "ARISKA" },
-      { lat: -1.917389, lng: 100.900077, label: "ARSY" },
-      { lat: -1.92078218, lng: 100.88219346, label: "CECEN" },
-      { lat: -1.92112536, lng: 100.88249071, label: "E R I" },
-      { lat: -1.92091966, lng: 100.88241486, label: "ERMAN" },
-      { lat: -1.9171966, lng: 100.880554, label: "HASANAH" },
-      { lat: -1.92093109, lng: 100.88247442, label: "HERMAN" },
-      { lat: -1.92409, lng: 100.895451, label: "I G U S" },
-      { lat: -1.92093819, lng: 100.8824773, label: "IQBAL" },
-      { lat: -1.93531, lng: 100.89908, label: "RAFLI" },
-      { lat: -1.914484, lng: 100.879053, label: "RIZAL KAMPAS" },
-      { lat: -1.920031, lng: 100.862984, label: "SANTI" },
-      { lat: -1.928941, lng: 100.895052, label: "SASHAILA" },
-      { lat: -1.917298, lng: 100.90187, label: "UPIK AIR HAJI" },
-      { lat: -1.92356781, lng: 100.88615118, label: "WIN" },
-      { lat: -2.05129634, lng: 100.96387372, label: "INDAH" },
-      { lat: -1.92382475, lng: 100.89685192, label: "I N A L" },
-      { lat: -1.91884478, lng: 100.88131753, label: "NABIL" },
-      { lat: -1.912385, lng: 100.877914, label: "SALAMON" },
-      { lat: -1.9196533, lng: 100.88174, label: "AJI MANIR" },
-      { lat: -1.9198886, lng: 100.88164, label: "ITA MANIR" },
-      { lat: -1.91144587, lng: 100.87762697, label: "F I K O" },
-      { lat: -1.9185866, lng: 100.881195, label: "RAMIDI" },
-      { lat: -1.92457723, lng: 100.908089, label: "RULLY" },
+    { lat: -1.9196533, lng: 100.88174, label: "AJI MANIR" },
+{ lat: -1.915518, lng: 100.886144, label: "ARISKA" },
+{ lat: -1.917389, lng: 100.900077, label: "ARSY" },
+{ lat: -1.92078218, lng: 100.88219346, label: "CECEN" },
+{ lat: -1.92112536, lng: 100.88249071, label: "E R I" },
+{ lat: -1.92091966, lng: 100.88241486, label: "ERMAN" },
+{ lat: -1.9171966, lng: 100.880554, label: "HASANAH" },
+{ lat: -1.92093109, lng: 100.88247442, label: "HERMAN" },
+{ lat: -1.92409, lng: 100.895451, label: "I G U S" },
+{ lat: -1.92382475, lng: 100.89685192, label: "I N A L" },
+{ lat: -2.05129634, lng: 100.96387372, label: "INDAH" },
+{ lat: -1.92093819, lng: 100.8824773, label: "IQBAL" },
+{ lat: -1.9198886, lng: 100.88164, label: "ITA MANIR" },
+{ lat: -1.91884478, lng: 100.88131753, label: "NABIL" },
+{ lat: -1.93531, lng: 100.89908, label: "RAFLI" },
+{ lat: -1.914484, lng: 100.879053, label: "RIZAL KAMPAS" },
+{ lat: -1.92457723, lng: 100.908089, label: "RULLY" },
+{ lat: -1.912385, lng: 100.877914, label: "SALAMON" },
+{ lat: -1.920031, lng: 100.862984, label: "SANTI" },
+{ lat: -1.928941, lng: 100.895052, label: "SASHAILA" },
+{ lat: -1.917298, lng: 100.90187, label: "UPIK AIR HAJI" },
+{ lat: -1.92356781, lng: 100.88615118, label: "WIN" },
+
     ];
 
     // Kelompok 3 (Kuning)
     const markersDataYellow = [
-      { lat: -1.90239, lng: 100.872647, label: "TOKO SRW" },
-      { lat: -1.92197, lng: 100.878301, label: "TOKO YANILA" },
-      { lat: -1.982191, lng: 100.936768, label: "TOKO ZAHIRA" },
-      { lat: -1.911765, lng: 100.899285, label: "TOKO ZILZAH" },
-      { lat: -1.924108, lng: 100.886899, label: "TOKO BASIRA" },
-      { lat: -1.924975, lng: 100.890014, label: "TOKO BULAN" },
-      { lat: -1.670468, lng: 100.691877, label: "AUREL K" },
-      { lat: -1.684673, lng: 100.705212, label: "TOKO ARSEN" },
-      { lat: -1.69795, lng: 100.711269, label: "TOKO RIAN" },
-      { lat: -1.693049, lng: 100.712958, label: "TOKO RISHFA" },
-      { lat: -1.781807, lng: 100.811563, label: "TOKO AZKA" },
-      { lat: -1.739755, lng: 100.745194, label: "JONI LENGAYANG" },
-      { lat: -1.742926, lng: 100.747984, label: "TOKO SHANUM" },
-      { lat: -1.741634, lng: 100.746813, label: "TOKO KHAYLA" },
-      { lat: -1.941617, lng: 100.902003, label: "ALFA RIZKI" },
-      { lat: -1.769325, lng: 100.770797, label: "YAZID CELL" },
-      { lat: -1.89385, lng: 100.866979, label: "KADAI ITOS" },
-      { lat: -1.895359, lng: 100.867925, label: "TOKO AFIKA" },
-      { lat: -1.888837, lng: 100.865137, label: "TOKO EMA" },
-      { lat: -1.958029, lng: 100.916051, label: "TOKO HANIA" },
-      { lat: -1.965715, lng: 100.921425, label: "TOKO VIORA" },
-      { lat: -1.826705, lng: 100.843403, label: "TOKO AWAL" },
+    { lat: -1.941617, lng: 100.902003, label: "ALFA RIZKI" },
+{ lat: -1.670468, lng: 100.691877, label: "AUREL K" },
+{ lat: -1.739755, lng: 100.745194, label: "JONI LENGAYANG" },
+{ lat: -1.89385, lng: 100.866979, label: "KADAI ITOS" },
+{ lat: -1.895359, lng: 100.867925, label: "TOKO AFIKA" },
+{ lat: -1.684673, lng: 100.705212, label: "TOKO ARSEN" },
+{ lat: -1.826705, lng: 100.843403, label: "TOKO AWAL" },
+{ lat: -1.781807, lng: 100.811563, label: "TOKO AZKA" },
+{ lat: -1.924108, lng: 100.886899, label: "TOKO BASIRA" },
+{ lat: -1.729943, lng: 100.736947, label: "TOKO BONITA" },
+{ lat: -1.924975, lng: 100.890014, label: "TOKO BULAN" },
+{ lat: -1.888837, lng: 100.865137, label: "TOKO EMA" },
+{ lat: -1.958029, lng: 100.916051, label: "TOKO HANIA" },
+{ lat: -1.685665, lng: 100.705802, label: "TOKO HENDRI" },
+{ lat: -1.741634, lng: 100.746813, label: "TOKO KHAYLA" },
+{ lat: -1.69795, lng: 100.711269, label: "TOKO RIAN" },
+{ lat: -1.693049, lng: 100.712958, label: "TOKO RISHFA" },
+{ lat: -1.742926, lng: 100.747984, label: "TOKO SHANUM" },
+{ lat: -1.90239, lng: 100.872647, label: "TOKO SRW" },
+{ lat: -1.965715, lng: 100.921425, label: "TOKO VIORA" },
+{ lat: -1.92197, lng: 100.878301, label: "TOKO YANILA" },
+{ lat: -1.982191, lng: 100.936768, label: "TOKO ZAHIRA" },
+{ lat: -1.911765, lng: 100.899285, label: "TOKO ZILZAH" },
+{ lat: -1.769325, lng: 100.770797, label: "YAZID CELL" },
+
     ];
 
      // ===============================
