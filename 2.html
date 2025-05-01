@@ -7,61 +7,80 @@
   <!-- Memuat CSS Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    /* Khusus untuk layar di bawah 768px */
-
-
-    /* Styling untuk nav bar */
     body, html { margin:0; padding:0; height:100%; }
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; height: 50px;
+      display: flex; align-items: center; padding: 0 20px;
+      background: rgba(6,168,243,0.8); z-index: 1001; box-sizing:border-box;
+    }
+    .navbar .hamburger {
+      display: none; font-size: 24px; cursor: pointer; color:#fff;
+      z-index: 1002;
+    }
+    .navbar-links {
+      display: flex; margin-left: 20px;
+    }
+    .navbar-links a {
+      color: #fff; padding: 14px 16px; text-decoration: none;
+    }
+    .navbar-text { margin-left: auto; color: #fff; }
+    @media (max-width:768px) {
+      .navbar .hamburger { display:block; }
+      .navbar-links {
+        display: none; flex-direction: column; width: 100%;
+        position: absolute; top: 50px; left: 0;
+        background: rgba(6,168,243,0.9); z-index: 1001;
+      }
+      .navbar-links.show { display: flex; }
+      .navbar-links a { padding: 12px; }
+    }
+    /* Sidebar overlay */
+    #sidebar {
+      position: absolute; top: 50px; left: 0;
+      width: 300px; height: calc(100% - 50px);
+      background: #cfd3cf; box-shadow: 2px 0 6px rgba(0,0,0,0.3);
+      padding:10px; box-sizing:border-box;
+      transition: transform 0.3s ease; z-index: 600;
+    }
+    #sidebar.collapsed {
+      transform: translateX(-300px);
+    }
+    /* Toggle button */
+    #toggle-btn {
+      position: absolute;
+      top: 50%;
+      left: 300px;
+      transform: translateY(-50%);
+      width:30px; height:30px; background:rgba(6,168,243,0.8);
+      color:#fff; border:none; border-radius:4px;
+      cursor:pointer; font-size:18px;
+      display:flex; align-items:center; justify-content:center;
+      transition: left 0.3s ease, transform 0.3s ease;
+      z-index:650;
+    }
+    #toggle-btn.collapsed {
+      left: 0;
+      transform: translateY(-50%) rotate(180deg);
+    }
+    /* Map fills entire viewport below navbar */
+    #map {
+      position:absolute; top:50px; left:0; right:0; bottom:0; z-index:500;
+    }
+    /* Sales styling */
+    .sales-item { display:flex; align-items:center; margin-bottom:15px; }
+    .sales-item img {
+      width:80px; height:80px; border-radius:10%; margin-right:10px;
+      object-fit:cover;
+    }
+    .excel-item { display:flex; align-items:center; margin-top:110px; }
+    .excel-item img {
+      width:80px; height:80px; border-radius:10%; margin-right:10px;
+      object-fit:cover;
+    }
+    .sales-info h3 { margin:0 0 5px; }
+    .sales-info p { margin:2px 0; }
 
-  /* ===== DESKTOP ===== */
-  .navbar {
-  position: fixed;
-  top: 0; left: 0; width: 100%;
-  display: flex;
-  align-items: center;
-  /* justify-content: space-between;  <-- atau ini, tapi di contoh berikut pakai margin-left:auto */
-  background-color: rgba(6,168,243,0.8);
-  z-index: 1000;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-.navbar-links {
-  display: flex;
-  /* kalau di desktop kamu masih pakai margin-left:auto;  
-     hapus saja, karena kita gunakan pada .navbar-text */
-}
-.navbar-links a {
-  color: #f2f2f2;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-.navbar-text {
-  margin-left: auto;      /* dorong elemen ini ke paling kanan */
-  color: #f2f2f2;
-  font-size: 17px;
-  white-space: nowrap;    /* agar teks tidak pecah baris */
-}
-
-  .hamburger { display: none; font-size: 24px; cursor: pointer; }
-
-  #map {
-    position: absolute;
-    top: 50px;   /* sesuaikan dengan tinggi navbar */
-    right: 0; bottom: 0; left: 0;
-  }
-
-  /* ===== MOBILE ===== */
-  @media (max-width: 768px) {
-  .hamburger { display: block; color:#fff; }
-  .navbar-links { display: none; flex-direction: column; width: 100%; }
-  .navbar-links.show { display: flex; }
-  /* Kalau mau sembunyikan teks di mobile, tambah:
-     .navbar-text { display: none; }
-  */
-}
-
-.note-box {
+    .note-box {
       background: rgba(255, 255, 224, 0.9); 
       padding: 8px;
       border-radius: 4px;
@@ -73,8 +92,8 @@
   </style>
 </head>
 <body>
-     <!-- Nav Bar -->
-     <div class="navbar">
+    <!-- Nav Bar -->
+    <div class="navbar">
       <div class="hamburger" onclick="toggleMenu()">☰</div>
       <div class="navbar-links" id="navLinks">
         <a href="senin.html">SENIN</a>
@@ -83,50 +102,88 @@
         <a href="2.html">KAMIS</a>
         <a href="jumat.html">JUMAT</a>
         <a href="sabtu.html">SABTU</a>
+        <a href="grafik.html">DASHBOARD</a>
     
     <!-- Tambahkan link lain sesuai kebutuhan -->
   </div>
   <div class="navbar-text">RUTE SALESMAN TAPAN</div>
 </div>
+<div id="sidebar">
+  <div class="sales-item">
+    <img src="ghazi.jpg" alt="Ghazi">
+    <div class="sales-info"><h3>Ghazi</h3><p>Total Outlet: 146</p><p>RPP: Rp. 134.062.528</p></div>
+  </div>
+  <div class="sales-item">
+    <img src="bagas.jpg" alt="Bagas">
+    <div class="sales-info"><h3>Bagas</h3><p>Total Outlet: 146</p><p>RPP: Rp. 220.987.604</p></div>
+  </div>
+  <div class="sales-item">
+    <img src="aska.jpg" alt="Aska">
+    <div class="sales-info"><h3>Aska</h3><p>Total Outlet: 120</p><p>RPP: Rp. 13.514.169</p></div>
+  </div>
+  <div class="sales-item">
+    <img src="rms.jpg" alt="Aska">
+    <div class="sales-info"><h3>Total Distributor</h3><p>Total Outlet: 408</p><p>RPP: Rp. 426.783.570</p></div>
+  </div>
+  <a
+  href="https://docs.google.com/spreadsheets/d/1KQXKP29nWOFys6I1pssFHynAQ6GIoiyh/edit?usp=drive_link&ouid=116285240658165815761&rtpof=true&sd=true"
+  target="_blank"
+  style="text-decoration: none; color: inherit;"
+>
+  <div class="excel-item">
+    <img src="excel.png" alt="download">
+    <div class="sales-info">
+      <h3>Download PJP</h3>
+    </div>
+  </div>
+</a>
+</div>
 
+</div>
+  <button id="toggle-btn"><</button>
   <div id="map"></div>
 
-  <!-- Memuat library Leaflet -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // ===============================
-    // 1) DEFINISI DATA KOORDINAT
-    // ===============================
-
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggle-btn');
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      toggleBtn.classList.toggle('collapsed');
+      // Re-render map
+      setTimeout(() => map.invalidateSize(), 310);
+    });
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('show');
+    }
     // Kelompok 1 (Biru)
     const markersDataBlue = [
-    { lat: -2.0723968, lng: 100.93329, label: "BAYU " },
-{ lat: -2.052507, lng: 101.026349, label: "NAJUAN" },
-{ lat: -2.0685582, lng: 100.9536, label: "SHAKILA" },
-{ lat: -2.056407, lng: 100.959013, label: "TOKO FAIHA" },
-{ lat: -2.070605, lng: 100.911835, label: "HMS" },
-{ lat: -2.039177, lng: 100.954839, label: "SUSI" },
+    { lat: -2.0685067, lng: 100.91459, label: "ALWIS" },
+{ lat: -1.8985283, lng: 100.87009, label: "ARIFA" },
+{ lat: -1.97477, lng: 100.882204, label: "ATHAR" },
 { lat: -1.997274, lng: 100.95203, label: "AZILLA" },
+{ lat: -2.0723968, lng: 100.93329, label: "BAYU " },
 { lat: -1.9932233, lng: 100.948586, label: "BUNGA PARIS" },
+{ lat: -2.0456476, lng: 100.95406, label: "FELIA" },
 { lat: -1.96342, lng: 100.92057, label: "HANUM" },
+{ lat: -2.070605, lng: 100.911835, label: "HMS" },
 { lat: -1.996947, lng: 100.952002, label: "IKHSAN" },
+{ lat: -2.032193, lng: 100.95555, label: "NADIF" },
+{ lat: -2.052507, lng: 101.026349, label: "NAJUAN" },
+{ lat: -2.068452, lng: 100.918972, label: "NAZLA" },
+{ lat: -2.0685582, lng: 100.9536, label: "SHAKILA" },
+{ lat: -2.039177, lng: 100.954839, label: "SUSI" },
 { lat: -1.988225, lng: 100.94154, label: "TANJUNG INDAH MART" },
+{ lat: -2.044604, lng: 100.988601, label: "TOKO ABEL" },
+{ lat: -2.018993, lng: 100.961482, label: "TOKO AGRA" },
+{ lat: -2.056407, lng: 100.959013, label: "TOKO FAIHA" },
+{ lat: -1.886504, lng: 100.866166, label: "TOKO JENJAK" },
 { lat: -1.985946, lng: 100.938484, label: "TOKO MUGHNY" },
+{ lat: -2.071116, lng: 100.954891, label: "TOKO QCELL" },
 { lat: -1.987398, lng: 100.939938, label: "TOKO RANDI" },
 { lat: -2.077938, lng: 101.045246, label: "TOKO RAUZAN" },
 { lat: -1.983403, lng: 100.937399, label: "TOKO WIDIA" },
-{ lat: -2.0685067, lng: 100.91459, label: "ALWIS" },
-{ lat: -2.068452, lng: 100.918972, label: "NAZLA" },
-{ lat: -2.071116, lng: 100.954891, label: "TOKO QCELL" },
 { lat: -2.071075, lng: 100.92968, label: "WAZUZA" },
-{ lat: -1.8985283, lng: 100.87009, label: "ARIFA" },
-{ lat: -2.0456476, lng: 100.95406, label: "FELIA" },
-{ lat: -2.032193, lng: 100.95555, label: "NADIF" },
-{ lat: -2.018993, lng: 100.961482, label: "TOKO AGRA" },
-{ lat: -2.044604, lng: 100.988601, label: "TOKO ABEL" },
-{ lat: -2.060064, lng: 100.955469, label: "ERIK" },
-{ lat: -2.00034, lng: 100.953443, label: "TOKO AM" },
-
     ];
 
     // Kelompok 2 (Merah)
@@ -162,21 +219,24 @@
 
     // Kelompok 3 (Kuning)
     const markersDataYellow = [
-    { lat: -1.989189, lng: 100.922788, label: "TOKO AFIFAH" },
+    { lat: -2.050853, lng: 101.021772, label: "AZAHRA ERISA" },
+{ lat: -2.050706, lng: 101.018082, label: "BU DES" },
+{ lat: -2.047054, lng: 100.953948, label: "EMPAT SAUDARA" },
+{ lat: -2.025634, lng: 100.958281, label: "KEVIN IP" },
 { lat: -2.062462, lng: 101.035932, label: "NAURA S.KUYUANG" },
 { lat: -2.05093, lng: 101.023023, label: "SEMBAKO IRMA" },
 { lat: -2.066963, lng: 101.038305, label: "TOKO ABIBI" },
-{ lat: -2.050853, lng: 101.021772, label: "AZAHRA ERISA" },
-{ lat: -2.050706, lng: 101.018082, label: "BU DES" },
-{ lat: -2.047054, lng: 100.953948, label: "EMPAT SAUDARA" },
-{ lat: -2.04939, lng: 100.954673, label: "TOKO NENG" },
-{ lat: -2.047928, lng: 100.954028, label: "TOKO RISKI" },
+{ lat: -1.989189, lng: 100.922788, label: "TOKO AFIFAH" },
 { lat: -1.99934, lng: 100.953377, label: "TOKO BAROKAH" },
 { lat: -1.99914, lng: 100.953234, label: "TOKO IWAN" },
-{ lat: -2.025634, lng: 100.958281, label: "KEVIN IP" },
-{ lat: -2.032716, lng: 100.955338, label: "TOKO OLVA" },
 { lat: -2.055179, lng: 101.00551, label: "TOKO KEYLA" },
 { lat: -2.046585, lng: 100.97642, label: "TOKO LINDA" },
+{ lat: -2.04939, lng: 100.954673, label: "TOKO NENG" },
+{ lat: -2.032716, lng: 100.955338, label: "TOKO OLVA" },
+{ lat: -2.014846, lng: 100.959237, label: "TOKO RANI" },
+{ lat: -2.047928, lng: 100.954028, label: "TOKO RISKI" },
+{ lat: -2.066771, lng: 100.912499, label: "TOKO YET" },
+
 
     ];
 
@@ -208,7 +268,7 @@
     // Tampilan jalan (OpenStreetMap)
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-     attribution: '© CopyRight-Riko Haryadi'
+      attribution: '© CopyRight-Riko Haryadi'
     }).addTo(map);
 
     // Tampilan satelit (Esri World Imagery)
